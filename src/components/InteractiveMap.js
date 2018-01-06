@@ -1,10 +1,8 @@
 import React from "react";
 import MapGL from "react-map-gl";
 
-import Marker from "./Marker.js";
 
 import { $vehicles } from "../utils/api.js";
-import { getRgbForValue } from "../utils/color.js";
 
 class InteractiveMap extends React.Component {
   constructor(props) {
