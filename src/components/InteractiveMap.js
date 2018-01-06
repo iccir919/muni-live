@@ -1,6 +1,11 @@
 import React from "react";
 import MapGL from "react-map-gl";
 
+import Marker from "./Marker.js";
+
+import { $vehicles } from "../utils/api.js";
+import { getRgbForValue } from "../utils/color.js";
+
 class InteractiveMap extends React.Component {
   constructor(props) {
     super(props);
@@ -14,7 +19,7 @@ class InteractiveMap extends React.Component {
         startDragLngLat: null,
         isDragging: null
       },
-      mapStyle: "mapbox://styles/mapbox/light-v9",
+      mapStyle: "mapbox://styles/mapbox/light-v9"
     };
   }
 
@@ -48,12 +53,13 @@ class InteractiveMap extends React.Component {
     this.setState({ viewport });
   };
 
+  // coordinates.longitude <= -122.0194 &&
+  // coordinates.latitude <= 38.0749 &&
+  // coordinates.longitude >= -122.8194 &&
+  // coordinates.latitude >= 37.2749
   _recenterIfSF = coordinates => {
     if (
-      coordinates.longitude <= -122.0194 &&
-      coordinates.latitude <= 38.0749 &&
-      coordinates.longitude >= -122.8194 &&
-      coordinates.latitude >= 37.2749
+      false
     ) {
       console.log("Detected location in SF, recentering map");
       this._recenter(coordinates);
@@ -103,6 +109,20 @@ class InteractiveMap extends React.Component {
         ref={map => (this.map = map)}
         {...viewport}
       >
+        {this.props.vehiclePositions.filter((xy) => {
+          return this.props.selectedRoutes.indexOf(xy.routeTag) !== -1;
+        }).filter(this._withinBounds).map((xy, i) => {
+          var lat = Number(xy.lat);
+          var lon = Number(xy.lon);
+          return (
+            <Marker
+              xy={{ x: lat, y: lon }}
+              color={getRgbForValue(xy.secsSinceReport)}
+              key={i}
+              text={xy.routeTag}
+            />
+          );
+        })}
       </MapGL>
     );
   }

@@ -15,13 +15,18 @@ class App extends Component {
         height: 100,
         width: 100
       },
-      selectedRoutes: []
+      selectedRoutes: [],
+      vehiclePositions: []
     };
   }
 
   componentDidMount() {
     this._updateDimensions();
     window.addEventListener("resize", this._updateDimensions);
+    $vehicles.subscribe(data => {
+      data = data.vehicle;
+      this.setState({ vehiclePositions: data });
+    });
   }
 
   handleRouteListClick = (event, item) => {
@@ -68,6 +73,7 @@ class App extends Component {
           height={this.state.windowDimensions.height}
           width={this.state.windowDimensions.width}
           selectedRoutes={this.state.selectedRoutes}
+          vehiclePositions={this.state.vehiclePositions}
         />
       </div>
     );
