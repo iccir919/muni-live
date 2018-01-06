@@ -30,7 +30,7 @@ class RouteDrawer extends React.Component {
     return (
       <div>
         <RaisedButton
-          label="Choose Route To See!"
+          label="Choose Route"
           onClick={this.handleToggle}
           secondary={true}
           style={{
@@ -43,7 +43,7 @@ class RouteDrawer extends React.Component {
           width={300}
           open={this.state.open}
           openSecondary={true}
-          onRequestChange={(open) => this.setState({open})}
+
         >
             <Menu
                 onItemClick={this.props.clickHandler}
@@ -52,6 +52,7 @@ class RouteDrawer extends React.Component {
                     <MenuItem 
                         key={idx}
                         ref={route.tag}
+                        onClick={this.handleClose}
                     >
                         {route.title}
                     </MenuItem>

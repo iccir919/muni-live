@@ -24,8 +24,25 @@ class App extends Component {
     window.addEventListener("resize", this._updateDimensions);
   }
 
-  handleRouteListClick(event, item) {
-    console.log(item)
+  handleRouteListClick = (event, item) => {
+    let tag = item.ref;
+    if(this.state.selectedRoutes.indexOf(tag) == -1) {
+      this.setState(function(prevState, props) {
+        prevState.selectedRoutes.push(tag);
+        return {
+          selectedRoutes: prevState.selectedRoutes
+        };
+      });
+    } else {
+      let index = this.state.selectedRoutes.indexOf(tag);
+      this.setState(function(prevState, props) {
+        prevState.selectedRoutes.splice(index, 1);
+        return {
+          selectedRoutes: prevState.selectedRoutes
+        };
+      });     
+    }
+
   }
 
 
