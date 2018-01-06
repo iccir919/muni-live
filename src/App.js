@@ -3,6 +3,7 @@ import './App.css';
 import InteractiveMap from "./components/InteractiveMap.js";
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import NavBar from "./components/NavBar.js";
+import { $vehicles } from "./utils/api.js";
 
 
 class App extends Component {
@@ -13,7 +14,8 @@ class App extends Component {
       windowDimensions: {
         height: 100,
         width: 100
-      }
+      },
+      selectedRoutes: []
     };
   }
 
@@ -21,6 +23,11 @@ class App extends Component {
     this._updateDimensions();
     window.addEventListener("resize", this._updateDimensions);
   }
+
+  handleRouteListClick(event, item) {
+    console.log(item)
+  }
+
 
   _updateDimensions = () => {
     this.setState({
@@ -35,11 +42,15 @@ class App extends Component {
     return (
       <div>
         <MuiThemeProvider>
-          <NavBar />
+          <NavBar 
+            routes={this.state.routes}
+            clickHandler={this.handleRouteListClick}
+          />
         </MuiThemeProvider>
         <InteractiveMap
           height={this.state.windowDimensions.height}
           width={this.state.windowDimensions.width}
+          selectedRoutes={this.state.selectedRoutes}
         />
       </div>
     );

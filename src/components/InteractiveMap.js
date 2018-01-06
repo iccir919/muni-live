@@ -1,9 +1,6 @@
 import React from "react";
 import MapGL from "react-map-gl";
 
-
-import { $vehicles } from "../utils/api.js";
-
 class InteractiveMap extends React.Component {
   constructor(props) {
     super(props);
@@ -18,15 +15,10 @@ class InteractiveMap extends React.Component {
         isDragging: null
       },
       mapStyle: "mapbox://styles/mapbox/light-v9",
-      xy: []
     };
   }
 
   componentDidMount() {
-    $vehicles.subscribe(data => {
-      data = data.vehicle;
-      this.setState({ xy: data });
-    });
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(position =>
         this._recenterIfSF(position.coords)
