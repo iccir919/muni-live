@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
 import InteractiveMap from "./components/InteractiveMap.js";
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import NavBar from "./components/NavBar.js";
+
 
 class App extends Component {
 
@@ -32,7 +34,9 @@ class App extends Component {
   render() {
     return (
       <div>
-        <NavBar />
+        <MuiThemeProvider>
+          <NavBar />
+        </MuiThemeProvider>
         <InteractiveMap
           height={this.state.windowDimensions.height}
           width={this.state.windowDimensions.width}

@@ -19,7 +19,7 @@ class InteractiveMap extends React.Component {
         startDragLngLat: null,
         isDragging: null
       },
-      mapStyle: "mapbox://styles/mapbox/dark-v9",
+      mapStyle: "mapbox://styles/mapbox/light-v9",
       xy: []
     };
   }
@@ -113,19 +113,6 @@ class InteractiveMap extends React.Component {
         ref={map => (this.map = map)}
         {...viewport}
       >
-      {this.state.xy.filter(this._withinBounds).map((xy, i) => {
-        var lat = Number(xy.lat);
-        var lon = Number(xy.lon);
-        console.log(xy);
-        return (
-          <Marker
-            xy={{ x: lat, y: lon }}
-            color={getRgbForValue(xy.secsSinceReport)}
-            key={i}
-            text={xy.routeTag}
-          />
-        );
-      })}
       </MapGL>
     );
   }
