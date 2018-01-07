@@ -5,7 +5,6 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import NavBar from "./components/NavBar.js";
 import { $vehicles } from "./utils/api.js";
 
-
 class App extends Component {
 
   constructor(props) {
@@ -16,7 +15,8 @@ class App extends Component {
         width: 100
       },
       selectedRoutes: [],
-      vehiclePositions: []
+      vehiclePositions: [],
+      routes: []
     };
   }
 
@@ -25,7 +25,13 @@ class App extends Component {
     window.addEventListener("resize", this._updateDimensions);
     $vehicles.subscribe(data => {
       data = data.vehicle;
-      this.setState({ vehiclePositions: data });
+      let routes = data.map(function(vehicle){
+        return vehicle.routeTag;
+      }).filter( onlyUnique ).sort().reverse();
+      this.setState({ 
+        vehiclePositions: data,
+        routes: routes
+       });
     });
   }
 
@@ -81,3 +87,8 @@ class App extends Component {
 }
 
 export default App;
+
+
+function onlyUnique(value, index, self) { 
+  return self.indexOf(value) === index;
+}
