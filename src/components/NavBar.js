@@ -15,8 +15,19 @@ class RouteDrawer extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {open: false};
+    this.state = {
+        open: false,
+        routes: []
+    };
   }
+
+    componentDidMount() {
+        axios.get(`http://webservices.nextbus.com/service/publicJSONFeed?command=routeList&a=sf-muni`)
+        .then(res => {
+            let routes = res.data.route; 
+            this.setState({ routes });
+        });
+    }
 
   handleToggle = () => this.setState({open: !this.state.open});
 
@@ -26,7 +37,7 @@ class RouteDrawer extends React.Component {
     let myPaddingStyle = {
         paddingTop: 10,
     }
-    let routes = this.props.routes;
+    let routes = this.state.routes;
     return (
       <div>
         <RaisedButton
@@ -75,21 +86,12 @@ class NavBar extends Component {
         };
     }
 
-    componentDidMount() {
-        axios.get(`http://webservices.nextbus.com/service/publicJSONFeed?command=routeList&a=sf-muni`)
-          .then(res => {
-              let routes = res.data.route; 
-              this.setState({ routes });
-        });
-    }
-
     render() {
         return (
         <div>
             <AppBar
             title="Muni Live!"
             iconElementRight= {<RouteDrawer 
-                routes={this.state.routes}
                 clickHandler={this.props.clickHandler}
             />}
             showMenuIconButton={false}
