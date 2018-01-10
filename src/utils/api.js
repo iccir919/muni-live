@@ -3,13 +3,29 @@ import Rx from "rxjs";
 
 const API_URL = "http://webservices.nextbus.com/service/publicJSONFeed?command=vehicleLocations&a=sf-muni";
 
-const proxy_URL = 'https://neilmunimap.herokuapp.com/proxy?url=';
+function getProxyURL() {
+  if (window.location.hostname === 'localhost') {
+      return 'proxy?url=';
+  } else {
+      return 'https://neilmunimap.herokuapp.com/proxy?url=';
+  }
 
-const APIurlWithProxy = proxy_URL + API_URL;
+}
+
+function isSecure() {
+  if (window.location.protocol.indexOf('https:') > -1) {
+      return getProxyURL();
+  } else {
+      return '';
+  }
+
+}
+
+const API_URL_with_proxy = isSecure() + API_URL;
 
 export const getVehicles = () =>
   new Promise((resolve, reject) => {
-    axios.get(APIurlWithProxy).then(response => resolve(response.data));
+    axios.get(API_URL_with_proxy).then(response => resolve(response.data));
   });
 
 export const timer = Rx.Observable.timer(0, 2000);

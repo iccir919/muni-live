@@ -2,6 +2,7 @@ import React from "react";
 import MapGL from "react-map-gl";
 
 import Marker from "./Marker.js";
+import Legend from "./Legend.js";
 
 import { $vehicles } from "../utils/api.js";
 import { getRgbForValue } from "../utils/color.js";
@@ -53,13 +54,12 @@ class InteractiveMap extends React.Component {
     this.setState({ viewport });
   };
 
-  // coordinates.longitude <= -122.0194 &&
-  // coordinates.latitude <= 38.0749 &&
-  // coordinates.longitude >= -122.8194 &&
-  // coordinates.latitude >= 37.2749
   _recenterIfSF = coordinates => {
     if (
-      false
+      coordinates.longitude <= -122.399494 &&
+      coordinates.latitude <= 37.825778 &&
+      coordinates.longitude >= -122.529956 &&
+      coordinates.latitude >= 37.709077
     ) {
       console.log("Detected location in SF, recentering map");
       this._recenter(coordinates);
@@ -123,6 +123,7 @@ class InteractiveMap extends React.Component {
             />
           );
         })}
+        <Legend />
       </MapGL>
     );
   }

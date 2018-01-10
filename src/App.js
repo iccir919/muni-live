@@ -24,14 +24,16 @@ class App extends Component {
     this._updateDimensions();
     window.addEventListener("resize", this._updateDimensions);
     $vehicles.subscribe(data => {
-      data = data.vehicle;
-      let routes = data.map(function(vehicle){
-        return vehicle.routeTag;
-      }).filter( onlyUnique ).sort().reverse();
-      this.setState({ 
-        vehiclePositions: data,
-        routes: routes
-       });
+      if(data.vehicle){
+        data = data.vehicle;
+        let routes = data.map(function(vehicle){
+          return vehicle.routeTag;
+        }).filter( onlyUnique ).sort().reverse();
+        this.setState({ 
+          vehiclePositions: data,
+          routes: routes
+         });
+      }
     });
   }
 
